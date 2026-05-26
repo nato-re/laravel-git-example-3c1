@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('album');
-            $table->string('artista');
-            $table->integer('duration_seconds')->default(0);
+            $table->string('artist');
+            $table->integer('duration')->default(0);
             $table->timestamps();
         });
     }

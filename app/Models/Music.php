@@ -10,7 +10,7 @@ class Music extends Model
     protected $fillable = [
         'name',
         'album',
-        'duration_seconds',
-        'artista'
+        'duration',
+        'artist'
     ];
 }

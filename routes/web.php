@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MusicController;
 use App\Models\Music;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
@@ -34,7 +35,7 @@ Route::get("/create-test-music", function (Request $request) {
     ]);
 });
 
-Route::get("/musics", function (Request $request) {
-    $musics = Music::all();
-    return $musics;
-});
+Route::get("/musics", [MusicController::class, 'index'])->name('musics.index');
+Route::get("/musics/create", [MusicController::class, 'create'])->name('musics.create');
+Route::post("/musics", [MusicController::class, 'store'])->name('musics.store');
+Route::get("/musics/{music}", [MusicController::class, 'show'])->name('musics.show');
