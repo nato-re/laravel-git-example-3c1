@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreMusicRequest;
 use App\Models\Music;
 use Illuminate\Http\Request;
 
@@ -29,9 +30,16 @@ class MusicController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreMusicRequest $request)
     {
-        Music::create($request->all());
+        // Validação Inline
+        // $validated = $request->validate([
+        //     'name' => 'string|max:255|required',
+        //     'album' => 'string|max:255|required',
+        //     'duration' => 'integer|max:1000|min:0|required',
+        //     'artist' => 'string|max:255|required',
+        // ]);
+        Music::create($request->validated());
         return redirect()->route('musics.index')->with("success","Música criada com sucesso");
     }
 
@@ -48,22 +56,28 @@ class MusicController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $music = Music::findOrFail($id);
+        return view("musics.edit", compact("music"));
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StoreMusicRequest $request, Music $music)
     {
-        //
+        $music->update($request->validated());
+        return redirect()->route('musics.index')->with("success","Música $music->name atualizada");
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Music $music)
     {
-        //
+        $music->delete();
+        return redirect()->route('musics.index')->with("success","Música $music->name deletada");
+
     }
 }
